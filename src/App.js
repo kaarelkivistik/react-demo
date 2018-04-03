@@ -2,14 +2,17 @@ import React, { Component, PureComponent } from 'react';
 import './App.css';
 
 class Todo extends PureComponent {
+  onCheckedChange = event => this.props.onToggle(this.props.id, event)
+  onClickDelete = event => this.props.onDelete(this.props.id, event)
+
   render = () => <li>
     <label style={{ textDecoration: this.props.done ? 'line-through' : 'none' }}><input 
       type="checkbox" 
       checked={this.props.done} 
-      onChange={this.props.onToggle} />
+      onChange={this.onCheckedChange} />
         {this.props.text}
       </label>
-      <button onClick={this.props.onDelete}>Kustuta</button>
+      <button onClick={this.onClickDelete}>Kustuta</button>
   </li>
 }
 
@@ -69,8 +72,9 @@ class App extends Component {
         <ul>
           {todos.map((todo, index) => <Todo 
             {...todo} 
-            onToggle={this.toggleTodo.bind(this, index)}
-            onDelete={this.deleteTodo.bind(this, index)}
+            onToggle={this.toggleTodo}
+            onDelete={this.deleteTodo}
+            id={index}
             key={index} />)}
         </ul>
 
