@@ -16,6 +16,10 @@ class Todo extends PureComponent {
   </li>
 }
 
+class Count extends Component {
+  render = () => <h3>Ülesandeid: {this.props.doneCount}/{this.props.totalCount}</h3>
+}
+
 class App extends Component {
   state = {
     input: "",
@@ -77,6 +81,10 @@ class App extends Component {
             id={index}
             key={index} />)}
         </ul>
+
+        <Count 
+          doneCount={this.state.todos.filter(todo => todo.done).length}
+          totalCount={this.state.todos.length} />
 
         <pre>
           {JSON.stringify(this.state, undefined, 4)}
