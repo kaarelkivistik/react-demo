@@ -5,15 +5,19 @@ class Todo extends PureComponent {
   onCheckedChange = event => this.props.onToggle(this.props.id, event)
   onClickDelete = event => this.props.onDelete(this.props.id, event)
 
-  render = () => <li>
-    <label style={{ textDecoration: this.props.done ? 'line-through' : 'none' }}><input 
-      type="checkbox" 
-      checked={this.props.done} 
-      onChange={this.onCheckedChange} />
-        {this.props.text}
-      </label>
-      <button onClick={this.onClickDelete}>Kustuta</button>
-  </li>
+  render = () => {
+    const { done, text } = this.props.todo;
+
+    return <li>
+      <label style={{ textDecoration: done ? 'line-through' : 'none' }}><input 
+        type="checkbox" 
+        checked={done} 
+        onChange={this.onCheckedChange} />
+          {text}
+        </label>
+        <button onClick={this.onClickDelete}>Kustuta</button>
+    </li>
+  }
 }
 
 class Count extends PureComponent {
@@ -75,7 +79,7 @@ class App extends Component {
         
         <ul>
           {todos.map((todo, index) => <Todo 
-            {...todo} 
+            todo={todo} 
             onToggle={this.toggleTodo}
             onDelete={this.deleteTodo}
             id={index}
