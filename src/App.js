@@ -16,7 +16,7 @@ class Todo extends PureComponent {
   </li>
 }
 
-class Count extends Component {
+class Count extends PureComponent {
   render = () => <h3>Ülesandeid: {this.props.doneCount}/{this.props.totalCount}</h3>
 }
 
