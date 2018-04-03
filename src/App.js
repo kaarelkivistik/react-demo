@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
 import './App.css';
 
-class Todo extends Component {
+class Todo extends PureComponent {
   render = () => <li>
     <label style={{ textDecoration: this.props.done ? 'line-through' : 'none' }}><input 
       type="checkbox" 
