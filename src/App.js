@@ -4,6 +4,33 @@ import './App.css';
 let id = 1
 const getId = () => id++
 
+/* 
+Or should we use Component instead of PureComponent and not compare props? 
+We know that TodoCreator itself needs to re-render with every letter we type,
+so comparing that seems rather pointless. When using Component, "wasted" renders happen when App 
+rerenders (when adding, toggling or deleting todos).
+*/
+class TodoCreator extends PureComponent {
+  state = { input: "" }
+
+  onChange = event => this.setState({ input: event.target.value })
+  onSubmit = event => {
+    event.preventDefault()
+    
+    this.props.onCreate({
+      id: getId(),
+      text: this.state.input,
+      done: false
+    })
+
+    this.setState({ input: "" })
+  }
+
+  render = () => <form onSubmit={this.onSubmit}>
+      <input type="text" value={this.state.input} onChange={this.onChange} />
+    </form>
+}
+
 class Todo extends Component {
   onCheckedChange = event => this.props.onToggle(this.props.todo.id, event)
   onClickDelete = event => this.props.onDelete(this.props.todo.id, event)
@@ -31,8 +58,6 @@ class Count extends PureComponent {
 
 class App extends Component {
   state = {
-    input: "",
-
     todos: [{
       id: getId(),
       text: "vii prügi välja",
@@ -44,22 +69,10 @@ class App extends Component {
     }]
   }
 
-  updateInput = event => this.setState({ input: event.target.value })
-
-  addTodo = event => {
-    event.preventDefault();
-
-    if(this.state.input.length === 0) return;
-
+  addTodo = todo =>
     this.setState(prevState => ({
-      input: "",
-      todos: [...prevState.todos, {
-        id: getId(),
-        text: prevState.input,
-        done: false
-      }]
+      todos: [...prevState.todos, todo]
     }))
-  }
 
   toggleTodo = (id, event) => {
     const { checked } = event.target;
@@ -81,9 +94,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        <form onSubmit={this.addTodo}>
-          <input type="text" value={input} onChange={this.updateInput} />
-        </form>
+        <TodoCreator onCreate={this.addTodo} />
         
         <ul>
           {todos.map(todo => <Todo 
