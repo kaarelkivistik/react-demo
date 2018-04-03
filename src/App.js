@@ -1,9 +1,11 @@
 import React, { Component, PureComponent } from 'react';
 import './App.css';
 
-class Todo extends PureComponent {
+class Todo extends Component {
   onCheckedChange = event => this.props.onToggle(this.props.id, event)
   onClickDelete = event => this.props.onDelete(this.props.id, event)
+
+  shouldComponentUpdate = nextProps => this.props.todo.done !== nextProps.todo.done
 
   render = () => {
     const { done, text } = this.props.todo;
