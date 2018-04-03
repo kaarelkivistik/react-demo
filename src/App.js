@@ -1,9 +1,12 @@
 import React, { Component, PureComponent } from 'react';
 import './App.css';
 
+let id = 1
+const getId = () => id++
+
 class Todo extends Component {
-  onCheckedChange = event => this.props.onToggle(this.props.id, event)
-  onClickDelete = event => this.props.onDelete(this.props.id, event)
+  onCheckedChange = event => this.props.onToggle(this.props.todo.id, event)
+  onClickDelete = event => this.props.onDelete(this.props.todo.id, event)
 
   shouldComponentUpdate = nextProps => this.props.todo.done !== nextProps.todo.done
 
@@ -31,9 +34,11 @@ class App extends Component {
     input: "",
 
     todos: [{
+      id: getId(),
       text: "vii prügi välja",
       done: true
     }, {
+      id: getId(),
       text: "valmista ette Reacti bootcamp",
       done: false
     }]
@@ -49,25 +54,26 @@ class App extends Component {
     this.setState(prevState => ({
       input: "",
       todos: [...prevState.todos, {
+        id: getId(),
         text: prevState.input,
         done: false
       }]
     }))
   }
 
-  toggleTodo = (index, event) => {
+  toggleTodo = (id, event) => {
     const { checked } = event.target;
 
     this.setState(prevState => ({
-      todos: prevState.todos.map((todo, $index) => index === $index ? {
+      todos: prevState.todos.map(todo => id === todo.id ? {
         ...todo,
         done: checked
       } : todo)
     }))
   }
 
-  deleteTodo = index => this.setState(prevState => ({
-    todos: prevState.todos.filter((todo, $index) => index !== $index)
+  deleteTodo = id => this.setState(prevState => ({
+    todos: prevState.todos.filter(todo => id !== todo.id)
   }))
 
   render = () => {
@@ -80,12 +86,11 @@ class App extends Component {
         </form>
         
         <ul>
-          {todos.map((todo, index) => <Todo 
+          {todos.map(todo => <Todo 
             todo={todo} 
             onToggle={this.toggleTodo}
             onDelete={this.deleteTodo}
-            id={index}
-            key={index} />)}
+            key={todo.id} />)}
         </ul>
 
         <Count 
