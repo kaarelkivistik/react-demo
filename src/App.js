@@ -1,6 +1,18 @@
 import React, { Component } from 'react';
 import './App.css';
 
+class Todo extends Component {
+  render = () => <li>
+    <label style={{ textDecoration: this.props.done ? 'line-through' : 'none' }}><input 
+      type="checkbox" 
+      checked={this.props.done} 
+      onChange={this.props.onToggle} />
+        {this.props.text}
+      </label>
+      <button onClick={this.props.onDelete}>Kustuta</button>
+  </li>
+}
+
 class App extends Component {
   state = {
     input: "",
@@ -55,15 +67,11 @@ class App extends Component {
         </form>
         
         <ul>
-          {todos.map((todo, index) => <li key={index}>
-            <label style={{ textDecoration: todo.done ? 'line-through' : 'none' }}><input 
-              type="checkbox" 
-              checked={todo.done} 
-              onChange={this.toggleTodo.bind(this, index)} />
-                {todo.text}
-              </label>
-              <button onClick={this.deleteTodo.bind(this, index)}>Kustuta</button>
-          </li>)}
+          {todos.map((todo, index) => <Todo 
+            {...todo} 
+            onToggle={this.toggleTodo.bind(this, index)}
+            onDelete={this.deleteTodo.bind(this, index)}
+            key={index} />)}
         </ul>
 
         <pre>
