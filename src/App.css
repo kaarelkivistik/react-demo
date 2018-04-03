@@ -1,0 +1,30 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.App {
+  margin: 5rem auto 5rem auto;
+  width: 75%;
+  font-size: 2rem;
+}
+
+input[type=text] {
+  width: 100%;
+  font-size: 2rem;
+}
+
+button {
+  margin-left: 0.5rem;
+  font-size: 1.5rem;
+}
+
+ul {
+  padding: 0;
+}
+
+li {
+  list-style: none;
+  margin-bottom: 1rem;
+}
