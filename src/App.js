@@ -57,10 +57,10 @@ class App extends Component {
     const { checked } = event.target;
 
     this.setState(prevState => ({
-      todos: prevState.todos.map((todo, $index) => ({
+      todos: prevState.todos.map((todo, $index) => index === $index ? {
         ...todo,
-        done: index === $index ? checked : todo.done
-      }))
+        done: checked
+      } : todo)
     }))
   }
 
