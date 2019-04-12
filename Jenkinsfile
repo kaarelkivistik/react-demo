@@ -1,9 +1,17 @@
 pipeline {
   agent any
   stages {
-    stage('') {
+    stage('build') {
+      agent {
+        docker {
+          image 'node:11-alpine'
+        }
+
+      }
       steps {
-        sh 'echo lmao'
+        sh '''printenv
+yarn
+yarn run build'''
       }
     }
   }
